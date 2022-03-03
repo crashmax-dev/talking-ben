@@ -17,7 +17,7 @@ for (const answer of answers) {
   video.setAttribute('preload', 'auto')
 
   const source = document.createElement('source')
-  source.src = `/${answer}.mp4`
+  source.src = `${answer}.mp4`
 
   video.appendChild(source)
   document.body.appendChild(video)
