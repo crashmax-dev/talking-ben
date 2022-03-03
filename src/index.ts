@@ -25,6 +25,7 @@ for (const answer of answers) {
   videos[answer] = video
 }
 
+let hasIdle = false
 let hasEnable = false
 const phoneContainer = document.createElement('div')
 phoneContainer.classList.add('phone-container')
@@ -37,6 +38,7 @@ callStart.onclick = () => {
   callStart.classList.add('hidden')
   callEnd.classList.remove('hidden')
   hasEnable = true
+  hasIdle = false
 }
 
 const callEnd = document.createElement('img')
@@ -71,7 +73,6 @@ function randomInt(min: number, max: number): number {
 }
 
 // TODO: fix types
-let hasIdle = false
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition()
 console.log(recognition)
