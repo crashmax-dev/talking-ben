@@ -25,7 +25,7 @@ for (const answer of answers) {
   videos[answer] = video
 }
 
-let hasIdle = false
+let countIdle = 0
 let hasEnable = false
 const phoneContainer = document.createElement('div')
 phoneContainer.classList.add('phone-container')
@@ -38,7 +38,7 @@ callStart.onclick = () => {
   callStart.classList.add('hidden')
   callEnd.classList.remove('hidden')
   hasEnable = true
-  hasIdle = false
+  countIdle = 0
 }
 
 const callEnd = document.createElement('img')
@@ -89,7 +89,7 @@ recognition.addEventListener('result', (event) => {
   console.log(message)
 
   if (isFinal) {
-    hasIdle = false
+    countIdle = 0
     const answerIndex = randomInt(0, answers.length - 3)
     playAnswer(answers[answerIndex])
   }
@@ -97,7 +97,7 @@ recognition.addEventListener('result', (event) => {
 
 recognition.addEventListener('end', () => {
   if (!hasEnable) return
-  if (hasIdle) return callEnd.click()
+  if (countIdle === 2) return callEnd.click()
   recognition.start()
-  hasIdle = true
+  countIdle++
 })
