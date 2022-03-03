@@ -72,35 +72,42 @@ function randomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-try {
-  // TODO: fix types
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+class Recognition {
+  recognition: any
 
-  const recognition = new SpeechRecognition()
-  recognition.interimResults = true
-
-  recognition.addEventListener('result', (event) => {
-    const isFinal = event.results[0].isFinal
-    const message = Array.from(event.results)
-      .map(result => result[0])
-      .map(result => result.transcript)
-      .join('')
-
-    console.log(message)
-
-    if (isFinal) {
-      countIdle = 0
-      const answerIndex = randomInt(0, answers.length - 3)
-      playAnswer(answers[answerIndex])
+  constructor() {
+    // TODO: fix types
+    try {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+      this.recognition = new SpeechRecognition()
+      this.recognition.interimResults = true
+    } catch (err) {
+      alert('This browser doesn\'t support SpeechRecognition API')
     }
-  })
 
-  recognition.addEventListener('end', () => {
-    if (!hasEnable) return
-    if (countIdle === 2) return callEnd.click()
-    recognition.start()
-    countIdle++
-  })
-} catch (err) {
-  alert('This browser doesn\'t support SpeechRecognition API')
+    this.recognition.addEventListener('result', (event) => {
+      const isFinal = event.results[0].isFinal
+      const message = Array.from(event.results)
+        .map(result => result[0])
+        .map(result => result.transcript)
+        .join('')
+
+      console.log(message)
+
+      if (isFinal) {
+        countIdle = 0
+        const answerIndex = randomInt(0, answers.length - 3)
+        playAnswer(answers[answerIndex])
+      }
+    })
+
+    this.recognition.addEventListener('end', () => {
+      if (!hasEnable) return
+      if (countIdle === 2) return callEnd.click()
+      this.recognition.start()
+      countIdle++
+    })
+  }
 }
+
+const { recognition } = new Recognition()
