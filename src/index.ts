@@ -71,6 +71,7 @@ function randomInt(min: number, max: number): number {
 }
 
 // TODO: fix types
+let hasIdle = false
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition()
 console.log(recognition)
@@ -87,6 +88,7 @@ recognition.addEventListener('result', (event) => {
   console.log(message)
 
   if (isFinal) {
+    hasIdle = false
     const answerIndex = randomInt(0, answers.length - 3)
     playAnswer(answers[answerIndex])
   }
@@ -94,5 +96,7 @@ recognition.addEventListener('result', (event) => {
 
 recognition.addEventListener('end', () => {
   if (!hasEnable) return
+  if (hasIdle) return callEnd.click()
   recognition.start()
+  hasIdle = true
 })
