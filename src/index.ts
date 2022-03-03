@@ -88,6 +88,7 @@ recognition.onspeechend = () => {
   playAnswer('hangup')
 }
 
+// inactive
 recognition.onend = () => {
-  playAnswer('hangup')
+  callEnd.click()
 }
