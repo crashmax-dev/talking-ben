@@ -25,24 +25,29 @@ for (const answer of answers) {
   videos[answer] = video
 }
 
+let hasEnable = false
 const phoneContainer = document.createElement('div')
 phoneContainer.classList.add('phone-container')
 
 const callStart = document.createElement('img')
 callStart.src = 'pickup.png'
 callStart.onclick = () => {
+  playAnswer('pickup')
   recognition.start()
   callStart.classList.add('hidden')
   callEnd.classList.remove('hidden')
+  hasEnable = true
 }
 
 const callEnd = document.createElement('img')
 callEnd.src = 'hangup.png'
 callEnd.classList.add('hidden')
 callEnd.onclick = () => {
+  playAnswer('hangup')
   recognition.stop()
   callEnd.classList.add('hidden')
   callStart.classList.remove('hidden')
+  hasEnable = false
 }
 
 phoneContainer.appendChild(callStart)
@@ -70,27 +75,24 @@ const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecogni
 const recognition = new SpeechRecognition()
 console.log(recognition)
 
-recognition.continuous = true
+recognition.interimResults = true
 
-recognition.onresult = (event) => {
-  const resultIndex = event.resultIndex
-  const transcript = event.results[resultIndex][0].transcript
-  console.log(transcript)
-  const answerIndex = randomInt(0, answers.length - 3)
-  playAnswer(answers[answerIndex])
-}
+recognition.addEventListener('result', (event) => {
+  const isFinal = event.results[0].isFinal
+  const message = Array.from(event.results)
+    .map(result => result[0])
+    .map(result => result.transcript)
+    .join('')
 
-recognition.onstart = () => {
-  playAnswer('pickup')
-}
+  console.log(message)
 
-recognition.onspeechend = () => {
-  playAnswer('hangup')
-}
+  if (isFinal) {
+    const answerIndex = randomInt(0, answers.length - 3)
+    playAnswer(answers[answerIndex])
+  }
+})
 
-// inactive
-recognition.onend = () => {
-  playAnswer('hangup')
-  callEnd.classList.add('hidden')
-  callStart.classList.remove('hidden')
-}
+recognition.addEventListener('end', () => {
+  if (!hasEnable) return
+  recognition.start()
+})
