@@ -73,7 +73,7 @@ function randomInt(min: number, max: number): number {
 }
 
 // TODO: fix types
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
 const recognition = new SpeechRecognition()
 console.log(recognition)
 
