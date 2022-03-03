@@ -7,6 +7,10 @@ const answers = [
   'pickup'
 ] as const
 
+const banWords = [
+  'путин'
+]
+
 type Answers = typeof answers[number]
 
 const videos = {} as Record<Answers, HTMLVideoElement>
@@ -72,6 +76,18 @@ function randomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
+function textToSpeech(message: string, end: () => void): void {
+  const speech = new SpeechSynthesisUtterance()
+
+  speech.text = message
+  speech.volume = 1
+  speech.rate = 5
+  speech.pitch = 5
+
+  window.speechSynthesis.speak(speech)
+  speech.addEventListener('end', () => end())
+}
+
 // TODO: fix types
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition()
@@ -85,19 +101,36 @@ recognition.addEventListener('result', (event) => {
     .map(result => result[0])
     .map(result => result.transcript)
     .join('')
+    .toLowerCase()
 
   console.log(message)
 
   if (isFinal) {
     hasIdle = false
+
+    if (banWords.some(word => message.indexOf(word) !== -1)) {
+      textToSpeech('Пошел нахуй, долбаёб', () => {
+        callEnd.click()
+      })
+
+      return
+    }
+
     const answerIndex = randomInt(0, answers.length - 3)
     playAnswer(answers[answerIndex])
   }
 })
 
 recognition.addEventListener('end', () => {
-  if (!hasEnable) return
-  if (hasIdle) return callEnd.click()
+  if (!hasEnable) {
+    return
+  }
+
+  if (hasIdle) {
+    callEnd.click()
+    return
+  }
+
   recognition.start()
   hasIdle = true
 })
