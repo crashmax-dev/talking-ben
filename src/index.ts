@@ -72,32 +72,35 @@ function randomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-// TODO: fix types
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
-const recognition = new SpeechRecognition()
-console.log(recognition)
+try {
+  // TODO: fix types
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
 
-recognition.interimResults = true
+  const recognition = new SpeechRecognition()
+  recognition.interimResults = true
 
-recognition.addEventListener('result', (event) => {
-  const isFinal = event.results[0].isFinal
-  const message = Array.from(event.results)
-    .map(result => result[0])
-    .map(result => result.transcript)
-    .join('')
+  recognition.addEventListener('result', (event) => {
+    const isFinal = event.results[0].isFinal
+    const message = Array.from(event.results)
+      .map(result => result[0])
+      .map(result => result.transcript)
+      .join('')
 
-  console.log(message)
+    console.log(message)
 
-  if (isFinal) {
-    countIdle = 0
-    const answerIndex = randomInt(0, answers.length - 3)
-    playAnswer(answers[answerIndex])
-  }
-})
+    if (isFinal) {
+      countIdle = 0
+      const answerIndex = randomInt(0, answers.length - 3)
+      playAnswer(answers[answerIndex])
+    }
+  })
 
-recognition.addEventListener('end', () => {
-  if (!hasEnable) return
-  if (countIdle === 2) return callEnd.click()
-  recognition.start()
-  countIdle++
-})
+  recognition.addEventListener('end', () => {
+    if (!hasEnable) return
+    if (countIdle === 2) return callEnd.click()
+    recognition.start()
+    countIdle++
+  })
+} catch (err) {
+  alert('This browser doesn\'t support SpeechRecognition API')
+}
