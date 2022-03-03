@@ -1,0 +1,31 @@
+* {
+  margin: 0;
+  user-select: none;
+}
+
+body {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 100vh;
+  filter: drop-shadow(2px 4px 6px black);
+  background-image: url('../static/background.png');
+  background-size: cover;
+}
+
+.hidden {
+  display: none;
+}
+
+.phone-container {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  z-index: 999;
+  right: 0px;
+  bottom: 0px;
+}
+
+.phone-container > img {
+  cursor: pointer;
+}
