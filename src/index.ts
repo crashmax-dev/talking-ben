@@ -90,5 +90,7 @@ recognition.onspeechend = () => {
 
 // inactive
 recognition.onend = () => {
-  callEnd.click()
+  playAnswer('hangup')
+  callEnd.classList.add('hidden')
+  callStart.classList.remove('hidden')
 }
