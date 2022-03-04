@@ -1,113 +1,61 @@
-const answers = [
-  'agh',
-  'no',
-  'yes',
-  'hohoho',
-  'hangup',
-  'pickup'
-] as const
+import { Ben, BEN_ANSWERS } from './ben'
+import { randomInt } from './helpers'
 
-type Answers = typeof answers[number]
+try {
+  const ben = new Ben()
 
-const videos = {} as Record<Answers, HTMLVideoElement>
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+  const recognition = new SpeechRecognition()
+  recognition.interimResults = true
 
-for (const answer of answers) {
-  const video = document.createElement('video')
-  video.classList.add('hidden')
-  video.setAttribute('preload', 'auto')
+  recognition.addEventListener('result', (event) => {
+    const isFinal = event.results[0].isFinal
+    const transcription = Array.from(event.results)
+      .map(result => result[0])
+      .map(result => result.transcript)
+      .join('')
 
-  const source = document.createElement('source')
-  source.src = `${answer}.mp4`
+    console.log(transcription)
+    ben.countIdle = 0
 
-  video.appendChild(source)
-  document.body.appendChild(video)
-
-  videos[answer] = video
-}
-
-let countIdle = 0
-let hasEnable = false
-const phoneContainer = document.createElement('div')
-phoneContainer.classList.add('phone-container')
-
-const callStart = document.createElement('img')
-callStart.src = 'pickup.png'
-callStart.onclick = () => {
-  playAnswer('pickup')
-  recognition.start()
-  callStart.classList.add('hidden')
-  callEnd.classList.remove('hidden')
-  hasEnable = true
-  countIdle = 0
-}
-
-const callEnd = document.createElement('img')
-callEnd.src = 'hangup.png'
-callEnd.classList.add('hidden')
-callEnd.onclick = () => {
-  playAnswer('hangup')
-  recognition.stop()
-  callEnd.classList.add('hidden')
-  callStart.classList.remove('hidden')
-  hasEnable = false
-}
-
-phoneContainer.appendChild(callStart)
-phoneContainer.appendChild(callEnd)
-document.body.append(phoneContainer)
-
-videos.pickup.classList.remove('hidden')
-
-function playAnswer(answer: Answers): void {
-  Object.values(videos).forEach((video) => {
-    video.classList.add('hidden')
-    video.pause()
-    video.currentTime = 0
+    if (isFinal) {
+      const randomAnswer = randomInt(0, BEN_ANSWERS.length - 3)
+      ben.playAnswer(BEN_ANSWERS[randomAnswer])
+    }
   })
-  videos[answer].classList.remove('hidden')
-  videos[answer].play()
-}
 
-function randomInt(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1) + min)
-}
-
-class Recognition {
-  recognition: any
-
-  constructor() {
-    // TODO: fix types
-    try {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
-      this.recognition = new SpeechRecognition()
-      this.recognition.interimResults = true
-    } catch (err) {
-      alert('This browser doesn\'t support SpeechRecognition API')
+  recognition.addEventListener('end', () => {
+    if (!ben.hasEnable) {
+      return
     }
 
-    this.recognition.addEventListener('result', (event) => {
-      const isFinal = event.results[0].isFinal
-      const message = Array.from(event.results)
-        .map(result => result[0])
-        .map(result => result.transcript)
-        .join('')
+    if (ben.countIdle === 2) {
+      ben.hangup.click()
+      return
+    }
 
-      console.log(message)
+    recognition.start()
+    ben.countIdle++
+  })
 
-      if (isFinal) {
-        countIdle = 0
-        const answerIndex = randomInt(0, answers.length - 3)
-        playAnswer(answers[answerIndex])
-      }
-    })
+  ben.pickup.addEventListener('click', () => {
+    ben.playAnswer('pickup')
+    console.log(recognition)
+    recognition.start()
+    ben.pickup.classList.add('hidden')
+    ben.hangup.classList.remove('hidden')
+    ben.hasEnable = true
+    ben.countIdle = 0
+  })
 
-    this.recognition.addEventListener('end', () => {
-      if (!hasEnable) return
-      if (countIdle === 2) return callEnd.click()
-      this.recognition.start()
-      countIdle++
-    })
-  }
+  ben.hangup.addEventListener('click', () => {
+    ben.playAnswer('hangup')
+    recognition.stop()
+    ben.pickup.classList.remove('hidden')
+    ben.hangup.classList.add('hidden')
+    ben.hasEnable = false
+    ben.countIdle = 0
+  })
+} catch (err) {
+  alert('This browser doesn\'t support SpeechRecognition API')
 }
-
-const { recognition } = new Recognition()
