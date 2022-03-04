@@ -3,9 +3,11 @@ import { randomInt } from './helpers'
 
 try {
   const ben = new Ben()
+  console.log(ben)
 
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
   const recognition = new SpeechRecognition()
+  console.log(recognition)
   recognition.interimResults = true
 
   recognition.addEventListener('result', (event) => {
@@ -40,7 +42,6 @@ try {
 
   ben.pickup.addEventListener('click', () => {
     ben.playAnswer('pickup')
-    console.log(recognition)
     recognition.start()
     ben.pickup.classList.add('hidden')
     ben.hangup.classList.remove('hidden')
