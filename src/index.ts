@@ -41,21 +41,13 @@ try {
   })
 
   ben.pickup.addEventListener('click', () => {
-    ben.playAnswer('pickup')
     recognition.start()
-    ben.pickup.classList.add('hidden')
-    ben.hangup.classList.remove('hidden')
-    ben.hasEnable = true
-    ben.countIdle = 0
+    ben.playPickup()
   })
 
   ben.hangup.addEventListener('click', () => {
-    ben.playAnswer('hangup')
     recognition.stop()
-    ben.pickup.classList.remove('hidden')
-    ben.hangup.classList.add('hidden')
-    ben.hasEnable = false
-    ben.countIdle = 0
+    ben.playHangup()
   })
 } catch (err) {
   alert('This browser doesn\'t support SpeechRecognition API')

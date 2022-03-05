@@ -65,4 +65,20 @@ export class Ben {
     this.videos[answer].classList.remove('hidden')
     this.videos[answer].play()
   }
+
+  playPickup(): void {
+    this.playAnswer('pickup')
+    this.pickup.classList.add('hidden')
+    this.hangup.classList.remove('hidden')
+    this.hasEnable = true
+    this.countIdle = 0
+  }
+
+  playHangup(): void {
+    this.playAnswer('hangup')
+    this.pickup.classList.remove('hidden')
+    this.hangup.classList.add('hidden')
+    this.hasEnable = false
+    this.countIdle = 0
+  }
 }
