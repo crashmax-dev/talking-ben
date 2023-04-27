@@ -1,21 +1,21 @@
 {
   "name": "talking-ben",
-  "description": "Talking Ben the Dog",
-  "version": "1.0.0",
-  "staticFiles": {
-    "staticPath": "static"
-  },
-  "devDependencies": {
-    "@types/dom-speech-recognition": "^0.0.1",
-    "parcel": "^2.3.2",
-    "parcel-reporter-static-files-copy": "^1.3.4",
-    "typescript": "^4.6.2"
-  },
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "dev": "parcel src/index.html",
-    "build": "parcel build src/index.html --public-url ./"
+    "dev": "vite",
+    "build": "vite build",
+    "format": "prettier --write '**/*.{js,ts,tsx,json}'"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@crashmax/prettier-config": "3.2.1",
+    "@types/dom-speech-recognition": "0.0.1",
+    "typescript": "5.0.4",
+    "vite": "4.3.3",
+    "vite-plugin-solid": "2.7.0"
   },
   "dependencies": {
-    "redom": "^3.27.1"
+    "solid-js": "1.7.3"
   }
 }
