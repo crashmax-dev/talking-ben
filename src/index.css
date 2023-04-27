@@ -21,12 +21,9 @@ video {
 .phone {
   position: absolute;
   z-index: 999;
-  padding: 1rem;
+  margin: 1rem;
   right: 0px;
   bottom: 0px;
-}
-
-.phone > img {
   cursor: pointer;
 }
 

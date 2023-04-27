@@ -1,19 +1,20 @@
-import { createSignal, Index, Show } from 'solid-js'
-import { scenes, SceneService, SpeechRecognitionService } from './Scene.js'
+import { Index, Show } from 'solid-js'
+import { scenes, SceneService } from './SceneService.js'
+import { SpeechRecognitionService } from './SpeechRecognition.js'
 import type { Component } from 'solid-js'
 
 const sceneService = new SceneService()
-const speechRecognition = new SpeechRecognitionService(sceneService)
+const speechRecognitionService = new SpeechRecognitionService(sceneService)
 
 export const App: Component = () => {
-  const [callIn, setCallIn] = createSignal(false)
+  const { isCalling, setIsCalling } = sceneService.callSignal
   const { currentScene } = sceneService.sceneSignal
 
-  const toggleCallIn = () => {
-    const toggledCallIn = !callIn()
-    setCallIn(toggledCallIn)
+  const toggleCalling = () => {
+    const toggledCallIn = !isCalling()
+    setIsCalling(toggledCallIn)
     sceneService.playScene(toggledCallIn ? 'pickup' : 'hangup')
-    speechRecognition.toggleRecognition(toggledCallIn)
+    speechRecognitionService.toggleRecognition()
   }
 
   return (
@@ -30,17 +31,19 @@ export const App: Component = () => {
       </Index>
       <div class="phone">
         <Show
-          when={callIn()}
+          when={isCalling()}
           fallback={
             <img
+              draggable={false}
               src="pickup.png"
-              onClick={() => toggleCallIn()}
+              onClick={() => toggleCalling()}
             />
           }
         >
           <img
+            draggable={false}
             src="hangup.png"
-            onClick={() => toggleCallIn()}
+            onClick={() => toggleCalling()}
           />
         </Show>
       </div>
