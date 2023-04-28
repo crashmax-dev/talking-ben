@@ -1,5 +1,5 @@
 import { randomNum } from '@zero-dependency/utils'
-import { answerScenes, SceneService } from './SceneService.js'
+import { answerScenes, isCalling, SceneService } from './SceneService.js'
 
 export class SpeechRecognitionService {
   #recognition: SpeechRecognition
@@ -23,8 +23,7 @@ export class SpeechRecognitionService {
   }
 
   toggleRecognition(): void {
-    const isCalling = this.#sceneService.callSignal.isCalling()
-    if (isCalling) {
+    if (isCalling()) {
       this.#recognition.start()
     } else {
       this.#recognition.stop()
@@ -48,7 +47,7 @@ export class SpeechRecognitionService {
   }
 
   private onEnd(): void {
-    if (!this.#sceneService.callSignal.isCalling()) return
+    if (!isCalling()) return
     this.#recognition.start()
   }
 }

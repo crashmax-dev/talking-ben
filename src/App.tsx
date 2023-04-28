@@ -1,5 +1,11 @@
 import { Index, Show } from 'solid-js'
-import { scenes, SceneService } from './SceneService.js'
+import {
+  currentScene,
+  isCalling,
+  scenes,
+  SceneService,
+  setIsCalling
+} from './SceneService.js'
 import { SpeechRecognitionService } from './SpeechRecognition.js'
 import type { Component } from 'solid-js'
 
@@ -7,9 +13,6 @@ const sceneService = new SceneService()
 const speechRecognitionService = new SpeechRecognitionService(sceneService)
 
 export const App: Component = () => {
-  const { isCalling, setIsCalling } = sceneService.callSignal
-  const { currentScene } = sceneService.sceneSignal
-
   const toggleCalling = () => {
     const toggledCallIn = !isCalling()
     setIsCalling(toggledCallIn)
