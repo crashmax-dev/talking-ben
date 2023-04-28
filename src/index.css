@@ -3,13 +3,13 @@
   user-select: none;
 }
 
-body {
+#root {
+  height: 100vh;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  height: 100vh;
   filter: drop-shadow(2px 4px 6px black);
-  background-image: url("../static/background.png");
+  background-image: url("./background.png");
   background-size: cover;
 }
 
@@ -18,24 +18,15 @@ video {
   height: 100vh;
 }
 
-@media only screen and (max-width: 500px) {
-  video {
-    object-fit: cover;
-  }
+.phone {
+  position: absolute;
+  z-index: 999;
+  margin: 1rem;
+  right: 0px;
+  bottom: 0px;
+  cursor: pointer;
 }
 
 .hidden {
   display: none;
-}
-
-.phone-container {
-  position: absolute;
-  z-index: 999;
-  padding: 1rem;
-  right: 0px;
-  bottom: 0px;
-}
-
-.phone-container > img {
-  cursor: pointer;
 }

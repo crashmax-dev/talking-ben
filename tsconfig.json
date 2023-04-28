@@ -1,16 +1,16 @@
 {
   "compilerOptions": {
-    "moduleResolution": "node",
-    "target": "ESNext",
-    "lib": [
-      "ESNext",
-      "DOM"
-    ],
-    "module": "ESNext",
-    "rootDir": "src",
     "strict": true,
-    "skipLibCheck": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+    "types": ["vite/client", "@types/dom-speech-recognition"],
+    "noEmit": true,
+    "isolatedModules": true,
     "strictPropertyInitialization": false
   }
 }
