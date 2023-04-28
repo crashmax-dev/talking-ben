@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "serve": "vite serve",
     "format": "prettier --write '**/*.{js,ts,tsx,json}'"
   },
   "license": "MIT",

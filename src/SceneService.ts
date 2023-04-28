@@ -10,12 +10,13 @@ export const answerScenes = [
 ]
 export const scenes = [...phoneScenes, ...answerScenes]
 
+export const [isAvailabeScene, setIsAvailableScene] = createSignal(false)
 export const [isCalling, setIsCalling] = createSignal(false)
 export const [currentScene, setCurrentScene] = createSignal(phoneScenes.at(0)!)
 
 export class SceneService {
   #videoScenes = new Map<string, HTMLVideoElement>()
-  #idleTimeout = new IdleTimeout(5)
+  #idleTimeout = new IdleTimeout(10)
 
   playScene(scene: string): void {
     const video = this.#videoScenes.get(scene)
@@ -35,6 +36,11 @@ export class SceneService {
   registerScene(scene: string, video: HTMLVideoElement): void {
     video.addEventListener('ended', () => {
       if (!isCalling()) return
+
+      if (scene === 'pickup') {
+        setIsAvailableScene(true)
+      }
+
       this.#idleTimeout.start(() => {
         this.playScene(phoneScenes.at(1)!)
         setIsCalling(false)
@@ -42,6 +48,10 @@ export class SceneService {
     })
 
     video.addEventListener('play', () => {
+      if (scene === 'hangup') {
+        setIsAvailableScene(false)
+      }
+
       this.#idleTimeout.stop()
     })
 

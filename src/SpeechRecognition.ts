@@ -1,5 +1,10 @@
 import { randomNum } from '@zero-dependency/utils'
-import { answerScenes, isCalling, SceneService } from './SceneService.js'
+import {
+  answerScenes,
+  isAvailabeScene,
+  isCalling,
+  SceneService
+} from './SceneService.js'
 
 export class SpeechRecognitionService {
   #recognition: SpeechRecognition
@@ -31,23 +36,25 @@ export class SpeechRecognitionService {
   }
 
   private onResult(event: SpeechRecognitionEvent): void {
+    if (!isAvailabeScene()) return
+
     const isFinal = event.results[0].isFinal
     const transcription = Array.from(event.results)
       .map((result) => result[0])
       .map((result) => result.transcript)
       .join('')
 
-    if (!isFinal) {
-      console.clear()
-      console.log(transcription)
-    } else {
-      const scene = answerScenes[randomNum(0, answerScenes.length)]
+    console.clear()
+    console.log(transcription)
+
+    if (isFinal) {
+      const scene = answerScenes[randomNum(0, answerScenes.length - 1)]
       this.#sceneService.playScene(scene)
     }
   }
 
   private onEnd(): void {
-    if (!isCalling()) return
+    if (!isAvailabeScene()) return
     this.#recognition.start()
   }
 }

@@ -1,6 +1,7 @@
 import { Index, Show } from 'solid-js'
 import {
   currentScene,
+  isAvailabeScene,
   isCalling,
   scenes,
   SceneService,
@@ -25,6 +26,7 @@ export const App: Component = () => {
       <Index each={scenes}>
         {(scene) => (
           <video
+            preload="auto"
             ref={(el) => sceneService.registerScene(scene(), el)}
             class={scene() !== currentScene() ? 'hidden' : 'visible'}
           >
@@ -46,7 +48,10 @@ export const App: Component = () => {
           <img
             draggable={false}
             src="hangup.png"
-            onClick={() => toggleCalling()}
+            onClick={() => {
+              if (!isAvailabeScene()) return
+              toggleCalling()
+            }}
           />
         </Show>
       </div>
