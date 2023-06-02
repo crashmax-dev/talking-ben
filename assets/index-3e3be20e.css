@@ -1,0 +1,1 @@
+*{margin:0;user-select:none}#root{height:100vh;display:flex;flex-direction:row;justify-content:center;filter:drop-shadow(2px 4px 6px black);background-image:url(../background.png);background-size:cover}video{width:100vw;height:100vh}.phone{position:absolute;z-index:999;margin:1rem;right:0;bottom:0;cursor:pointer}.hidden,.volume{display:none}.phone:hover>.volume{display:initial}
