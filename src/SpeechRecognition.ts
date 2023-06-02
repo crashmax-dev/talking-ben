@@ -18,10 +18,16 @@ export class SpeechRecognitionService {
         window.SpeechRecognition || window.webkitSpeechRecognition
       this.#recognition = new SpeechRecognition()
       this.#recognition.interimResults = true
-      this.#recognition.addEventListener('result', (event) =>
+
+      this.#recognition.addEventListener('result', (event) => {
+        if (!isAvailabeScene()) return
         this.onResult(event)
-      )
-      this.#recognition.addEventListener('end', () => this.onEnd())
+      })
+
+      this.#recognition.addEventListener('end', () => {
+        if (!isAvailabeScene() && !isCalling()) return
+        this.onEnd()
+      })
     } catch (err) {
       alert('SpeechRecognition is not supported in your browser')
     }
@@ -36,8 +42,6 @@ export class SpeechRecognitionService {
   }
 
   private onResult(event: SpeechRecognitionEvent): void {
-    if (!isAvailabeScene()) return
-
     const isFinal = event.results[0].isFinal
     const transcription = Array.from(event.results)
       .map((result) => result[0])
@@ -54,7 +58,6 @@ export class SpeechRecognitionService {
   }
 
   private onEnd(): void {
-    if (!isAvailabeScene()) return
     this.#recognition.start()
   }
 }

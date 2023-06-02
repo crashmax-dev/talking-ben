@@ -1,12 +1,11 @@
-import { Index, Show } from 'solid-js'
+import { createEffect, Index, Show } from 'solid-js'
 import {
   currentScene,
   isAvailabeScene,
   isCalling,
   scenes,
   SceneService,
-  setIsCalling,
-  setVolume
+  setIsCalling
 } from './SceneService.js'
 import { SpeechRecognitionService } from './SpeechRecognition.js'
 import type { Component } from 'solid-js'
@@ -19,8 +18,11 @@ export const App: Component = () => {
     const toggledCallIn = !isCalling()
     setIsCalling(toggledCallIn)
     sceneService.playScene(toggledCallIn ? 'pickup' : 'hangup')
-    speechRecognitionService.toggleRecognition()
   }
+
+  createEffect(() => {
+    speechRecognitionService.toggleRecognition()
+  })
 
   return (
     <>

@@ -17,7 +17,7 @@ export const [currentScene, setCurrentScene] = createSignal(phoneScenes.at(0)!)
 
 export class SceneService {
   #videoScenes = new Map<string, HTMLVideoElement>()
-  #idleTimeout = new IdleTimeout(10)
+  #idleTimeout = new IdleTimeout(2)
 
   playScene(scene: string): void {
     const video = this.#videoScenes.get(scene)
