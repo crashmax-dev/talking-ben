@@ -30,3 +30,11 @@ video {
 .hidden {
   display: none;
 }
+
+.volume {
+  display: none;
+}
+
+.phone:hover > .volume {
+  display: initial;
+}

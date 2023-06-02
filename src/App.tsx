@@ -5,7 +5,8 @@ import {
   isCalling,
   scenes,
   SceneService,
-  setIsCalling
+  setIsCalling,
+  setVolume
 } from './SceneService.js'
 import { SpeechRecognitionService } from './SpeechRecognition.js'
 import type { Component } from 'solid-js'
@@ -35,6 +36,16 @@ export const App: Component = () => {
         )}
       </Index>
       <div class="phone">
+        <input
+          title="Volume"
+          class="volume"
+          type="range"
+          min={0}
+          max={100}
+          onChange={(event) => {
+            sceneService.setScenesVolume(Number(event.target.value) / 100)
+          }}
+        />
         <Show
           when={isCalling()}
           fallback={

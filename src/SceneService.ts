@@ -10,6 +10,7 @@ export const answerScenes = [
 ]
 export const scenes = [...phoneScenes, ...answerScenes]
 
+export const [volume, setVolume] = createSignal(0.5)
 export const [isAvailabeScene, setIsAvailableScene] = createSignal(false)
 export const [isCalling, setIsCalling] = createSignal(false)
 export const [currentScene, setCurrentScene] = createSignal(phoneScenes.at(0)!)
@@ -33,7 +34,15 @@ export class SceneService {
     setCurrentScene(scene)
   }
 
+  setScenesVolume(volume: number): void {
+    setVolume(volume)
+    for (const scene of this.#videoScenes.values()) {
+      scene!.volume = volume
+    }
+  }
+
   registerScene(scene: string, video: HTMLVideoElement): void {
+    video.volume = volume()
     video.addEventListener('ended', () => {
       if (!isCalling()) return
 
