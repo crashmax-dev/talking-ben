@@ -1,4 +1,8 @@
 import { createEffect, Index, Show } from 'solid-js'
+import type { Component } from 'solid-js'
+
+import hangup from '@/assets/hangup.png'
+import pickup from '@/assets/pickup.png'
 import {
   currentScene,
   isAvailabeScene,
@@ -9,10 +13,6 @@ import {
   setIsCalling
 } from './SceneService.js'
 import { SpeechRecognitionService } from './SpeechRecognition.js'
-import pickup from '@/assets/pickup.png'
-import hangup from '@/assets/hangup.png'
-
-import type { Component } from 'solid-js'
 
 const sceneService = new SceneService()
 const speechRecognitionService = new SpeechRecognitionService(sceneService)

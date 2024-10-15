@@ -1,12 +1,12 @@
 import { createSignal } from 'solid-js'
-import { IdleTimeout } from './IdleTimeout.js'
 
-import pickup from '@/assets/pickup.mp4'
-import hangup from '@/assets/hangup.mp4'
 import agh from '@/assets/agh.mp4'
-import no from '@/assets/no.mp4'
-import yes from '@/assets/yes.mp4'
+import hangup from '@/assets/hangup.mp4'
 import hohoho from '@/assets/hohoho.mp4'
+import no from '@/assets/no.mp4'
+import pickup from '@/assets/pickup.mp4'
+import yes from '@/assets/yes.mp4'
+import { IdleTimeout } from './IdleTimeout.js'
 
 interface Scene {
   name: string

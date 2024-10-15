@@ -1,4 +1,5 @@
 import { randomNum } from '@zero-dependency/utils'
+
 import {
   answerScenes,
   isAvailabeScene,
