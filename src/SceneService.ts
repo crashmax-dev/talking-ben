@@ -1,14 +1,30 @@
 import { createSignal } from 'solid-js'
 import { IdleTimeout } from './IdleTimeout.js'
 
-export const phoneScenes = ['pickup', 'hangup']
-export const answerScenes = [
-  'agh',
-  'no',
-  'yes',
-  'hohoho'
+import pickup from '@/assets/pickup.mp4'
+import hangup from '@/assets/hangup.mp4'
+import agh from '@/assets/agh.mp4'
+import no from '@/assets/no.mp4'
+import yes from '@/assets/yes.mp4'
+import hohoho from '@/assets/hohoho.mp4'
+
+interface Scene {
+  name: string
+  src: string
+}
+
+export const phoneScenes: Scene[] = [
+  { name: 'pickup', src: pickup },
+  { name: 'hangup', src: hangup }
 ]
-export const scenes = [...phoneScenes, ...answerScenes]
+
+export const answerScenes: Scene[] = [
+  { name: 'agh', src: agh },
+  { name: 'no', src: no },
+  { name: 'yes', src: yes },
+  { name: 'hohoho', src: hohoho }
+]
+export const scenes: Scene[] = [...phoneScenes, ...answerScenes]
 
 export const [volume, setVolume] = createSignal(0.5)
 export const [isAvailabeScene, setIsAvailableScene] = createSignal(false)
@@ -19,8 +35,8 @@ export class SceneService {
   #videoScenes = new Map<string, HTMLVideoElement>()
   #idleTimeout = new IdleTimeout(10)
 
-  playScene(scene: string): void {
-    const video = this.#videoScenes.get(scene)
+  playScene(scene: Scene): void {
+    const video = this.#videoScenes.get(scene.name)
     if (!video) {
       throw new Error(`Scene ${scene} not found`)
     }
@@ -41,12 +57,12 @@ export class SceneService {
     }
   }
 
-  registerScene(scene: string, video: HTMLVideoElement): void {
+  registerScene(scene: Scene, video: HTMLVideoElement): void {
     video.volume = volume()
     video.addEventListener('ended', () => {
       if (!isCalling()) return
 
-      if (scene === 'pickup') {
+      if (scene.name === 'pickup') {
         setIsAvailableScene(true)
       }
 
@@ -57,13 +73,13 @@ export class SceneService {
     })
 
     video.addEventListener('play', () => {
-      if (scene === 'hangup') {
+      if (scene.name === 'hangup') {
         setIsAvailableScene(false)
       }
 
       this.#idleTimeout.stop()
     })
 
-    this.#videoScenes.set(scene, video)
+    this.#videoScenes.set(scene.name, video)
   }
 }

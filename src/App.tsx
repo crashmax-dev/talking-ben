@@ -3,11 +3,15 @@ import {
   currentScene,
   isAvailabeScene,
   isCalling,
+  phoneScenes,
   scenes,
   SceneService,
   setIsCalling
 } from './SceneService.js'
 import { SpeechRecognitionService } from './SpeechRecognition.js'
+import pickup from '@/assets/pickup.png'
+import hangup from '@/assets/hangup.png'
+
 import type { Component } from 'solid-js'
 
 const sceneService = new SceneService()
@@ -17,7 +21,7 @@ export const App: Component = () => {
   const toggleCalling = () => {
     const toggledCallIn = !isCalling()
     setIsCalling(toggledCallIn)
-    sceneService.playScene(toggledCallIn ? 'pickup' : 'hangup')
+    sceneService.playScene(phoneScenes[Number(!toggledCallIn)])
   }
 
   createEffect(() => {
@@ -33,34 +37,36 @@ export const App: Component = () => {
             ref={(el) => sceneService.registerScene(scene(), el)}
             class={scene() !== currentScene() ? 'hidden' : 'visible'}
           >
-            <source src={scene() + '.mp4'} />
+            <source src={scene().src} />
           </video>
         )}
       </Index>
       <div class="phone">
-        <input
-          title="Volume"
-          class="volume"
-          type="range"
-          min={0}
-          max={100}
-          onChange={(event) => {
-            sceneService.setScenesVolume(Number(event.target.value) / 100)
-          }}
-        />
+        <label class="volume">
+          Volume
+          <input
+            title="Volume"
+            type="range"
+            min={0}
+            max={100}
+            onChange={(event) => {
+              sceneService.setScenesVolume(Number(event.target.value) / 100)
+            }}
+          />
+        </label>
         <Show
           when={isCalling()}
           fallback={
             <img
               draggable={false}
-              src="pickup.png"
+              src={pickup}
               onClick={() => toggleCalling()}
             />
           }
         >
           <img
             draggable={false}
-            src="hangup.png"
+            src={hangup}
             onClick={() => {
               if (!isAvailabeScene()) return
               toggleCalling()

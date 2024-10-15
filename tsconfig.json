@@ -11,6 +11,10 @@
     "types": ["vite/client", "@types/dom-speech-recognition"],
     "noEmit": true,
     "isolatedModules": true,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+    },
   }
 }

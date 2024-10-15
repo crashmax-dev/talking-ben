@@ -1,6 +1,6 @@
 export class IdleTimeout {
   #ms: number
-  #timeout: number | null = null
+  #timeout: ReturnType<typeof setTimeout> | null = null
 
   constructor(seconds: number) {
     this.#ms = seconds * 1000

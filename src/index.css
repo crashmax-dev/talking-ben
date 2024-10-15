@@ -9,8 +9,9 @@
   flex-direction: row;
   justify-content: center;
   filter: drop-shadow(2px 4px 6px black);
-  background-image: url("/background.png");
+  background-image: url(@/assets/background.png);
   background-size: cover;
+  font-family: monospace;
 }
 
 video {
@@ -25,6 +26,9 @@ video {
   right: 0px;
   bottom: 0px;
   cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
 }
 
 .hidden {
@@ -32,9 +36,12 @@ video {
 }
 
 .volume {
+  flex-direction: column;
   display: none;
+  color: #fff;
+  font-size: 16px;
 }
 
 .phone:hover > .volume {
-  display: initial;
+  display: flex;
 }
