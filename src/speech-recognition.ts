@@ -49,8 +49,10 @@ export class SpeechRecognitionService {
       .map((result) => result.transcript)
       .join('')
 
-    console.clear()
-    console.log(transcription)
+    if (import.meta.env.DEV) {
+      console.clear()
+      console.log(transcription)
+    }
 
     if (isFinal) {
       const scene = answerScenes[randomNum(0, answerScenes.length - 1)]
