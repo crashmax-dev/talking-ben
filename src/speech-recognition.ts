@@ -5,7 +5,7 @@ import {
   isAvailabeScene,
   isCalling,
   SceneService
-} from './SceneService.js'
+} from './scene-service.js'
 
 export class SpeechRecognitionService {
   #recognition: SpeechRecognition

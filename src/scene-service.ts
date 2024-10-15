@@ -6,7 +6,7 @@ import hohoho from '@/assets/hohoho.mp4'
 import no from '@/assets/no.mp4'
 import pickup from '@/assets/pickup.mp4'
 import yes from '@/assets/yes.mp4'
-import { IdleTimeout } from './IdleTimeout.js'
+import { IdleTimeout } from './idle-timeout.js'
 
 interface Scene {
   name: string

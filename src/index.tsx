@@ -1,10 +1,10 @@
 /* @refresh reload */
 import { render } from 'solid-js/web'
 
-import { App } from './App.js'
-import { splashScreen } from './SplashScreen.js'
+import { App } from './app.jsx'
+import { splashScreen } from './splash-screen.js'
 
-import './index.scss'
+import '@/styles/main.scss'
 
 const root = document.querySelector('#root')
 

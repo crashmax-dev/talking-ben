@@ -46,9 +46,13 @@ class SplashScreen {
 
   onInit(callback: () => void) {
     this.#callback = callback
+    if (import.meta.env.DEV) {
+      this.#callback()
+    }
   }
 
   init() {
+    if (import.meta.env.DEV) return
     if (this.#el) return
 
     this.#playAudio()

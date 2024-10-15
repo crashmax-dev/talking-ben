@@ -11,8 +11,8 @@ import {
   scenes,
   SceneService,
   setIsCalling
-} from './SceneService.js'
-import { SpeechRecognitionService } from './SpeechRecognition.js'
+} from './scene-service.js'
+import { SpeechRecognitionService } from './speech-recognition.js'
 
 const sceneService = new SceneService()
 const speechRecognitionService = new SpeechRecognitionService(sceneService)

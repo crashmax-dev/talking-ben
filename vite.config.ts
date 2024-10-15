@@ -4,11 +4,10 @@ import { viteSingleFile } from 'vite-plugin-singlefile'
 import solidPlugin from 'vite-plugin-solid'
 
 export default defineConfig({
-  base: './',
-  plugins: [viteSingleFile(), solidPlugin()],
-  server: {
-    port: 3000
-  },
+  plugins: [
+    solidPlugin(),
+    viteSingleFile()
+  ],
   build: {
     target: 'esnext',
     minify: false,
