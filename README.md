@@ -1,4 +1,4 @@
-# Talking Ben on the web
+# Talking Ben
 
 [![github-pages](https://github.com/crashmax-dev/talking-ben/actions/workflows/gh-pages.yml/badge.svg?branch=master)](https://github.com/crashmax-dev/talking-ben/actions/workflows/gh-pages.yaml)
 
